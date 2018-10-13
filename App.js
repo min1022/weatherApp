@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ActivityIndicator} from 'react-native'; 
+import { StyleSheet, Text, View, StatusBar } from 'react-native'; 
 import Weather from "./Weather";
 //시트, 텍스트, 뷰같은 특정한 컴포넌트를 불러옴
 //모바일 환경에 따라 맞춰 네이티브하게 변화함  
 
-const API_KEY="614dff570e7c0cc91b6369200deafabb";
+const API_KEY = "0d4afc550bc71dde7aa5156165e268e1";
 
 export default class App extends React.Component {
   state = {
@@ -16,26 +16,27 @@ export default class App extends React.Component {
     name: null
   };
   componentDidMount() {
-    navigator.geolocation.getCurrentPosition( //위치정보 확인 후 날씨정보를 보여줌
+    navigator.geolocation.getCurrentPosition(
       position => {
-        this._getWeather(position.coords.latitude, position.coords.longitude)
+        this._getWeather(position.coords.latitude, position.coords.longitude);
       },
-        error => {
-          this.setState({
-            error:error
-          });
-         }
-      );
-    }//이후 위치 정보를 api로 보내어 진짜 날씨정보를 얻어와야함 
+      error => {
+        this.setState({
+          error: error
+        });
+      }
+    );
+  }//이후 위치 정보를 api로 보내어 진짜 날씨정보를 얻어와야함 
 
     _getWeather = (lat, lon) => { //position에서 오는 정보
-      fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${API_KEY}`) //position에서 이 펑션을 불러와야함
-      .then(response => response.json()) //response를 json으로 
+      fetch(
+        `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${API_KEY}`
+      ) .then(response => response.json()) //response를 json으로 
       .then(json => {
         console.log(json);
         this.setState({
           temperature:json.main.temp,//api에서 받아온 json object
-          name:json.Weather[0].main,
+          name:json.weather[0].main,
           isLoaded: true
         });//날씨이름, 온도에 대한 json데이터를 얻어와 state에 저장 
       });
@@ -44,7 +45,8 @@ export default class App extends React.Component {
     const { isLoaded, error, temperature, name } = this.state; //render 펑션에 error 추가 
     return (
       <View style={styles.container}>
-        {isLoaded ? ( <Weather weatherName = {name} temp = {Math.floor(temperature - 273.15)} /> 
+        {isLoaded ? (
+           <Weather weatherName = {name} temp = {Math.floor(temperature - 273.15)} /> 
         ) : ( <View style={styles.loading}>
           <Text style={styles.loadingText}>Getting the Weather</Text>
           { error ? <Text style={styles.errorText}>{error}</Text> : null } 

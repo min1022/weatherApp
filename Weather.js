@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, StatusBar} from 'react-native';
+import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import { LinearGradient } from "expo"; //배경 그라데이션, 두가지 property가 필요 1.색상 2.스타일 
-import { Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import PropTypes from "prop-types";
 import Icon from 'expo/src/Icon';
 
@@ -34,14 +34,14 @@ const WeatherCases = {
         colors: ["#00C6FB", "#005B3A"],
         title: "Raining",
         subtitle: "For more info, look outside",
-        icon: 'ios-rainy'
+        icon: 'weather-rainy'
     },
 
     Clear: {
         colors: ["#FEF253", "#FF7300"],
         title: "Sunny",
         subtitle: "Sunny outside ",
-        icon: 'ios-sunny'
+        icon: 'weather-sunny'
 
     },
 
@@ -49,7 +49,7 @@ const WeatherCases = {
         colors: ["#00ECBC", "#007ADF"],
         title: "Thunderstorm",
         subtitle: "Thunder",
-        icon: 'ios-thunderstorm'
+        icon: 'weather-lightening'
 
     },
 
@@ -57,7 +57,7 @@ const WeatherCases = {
         colors: ["#D7D2CC", "#304352"],
         title: "Cloudy",
         subtitle: "Cloudsssss",
-        icon: 'ios-cloudy'
+        icon: 'weather-cloudy'
 
     },
 
@@ -65,7 +65,7 @@ const WeatherCases = {
         colors: ["#7DE2FC", "#B9B6E5"],
         title: "Snowy",
         subtitle: "Do you want to build a snowman?",
-        icon: 'ios-snow'
+        icon: 'weather-snowy'
 
     },
 
@@ -73,18 +73,24 @@ const WeatherCases = {
         colors: ["#89F7FE", "#66A6FF"],
         title: "Drizzle",
         subtitle: "It's like rain",
-        icon: 'ios-rainy-outline'
+        icon: 'weather-hail'
 
     },
 
     Haze: {
         colors: ["#89F7FE", "#66A6FF"],
-        title: "Drizzle",
-        subtitle: "It's like rain",
-        icon: 'ios-rainy-outline'
+        title: "Haze",
+        subtitle: "Don't know what that is 💩",
+        icon: "weather-hail"
+      },
 
-    }
-}
+      Mist: {
+        colors: ["#D7D2CC", "#304352"],
+        title: "Mist!",
+        subtitle: "It's like you have no glasses on.",
+        icon: "weather-fog"
+      }
+};
 
 function Weather({ weatherName, temp }) { //app.js에서는 name을 내보내고, 여기선 이를 weather case로 내보냄
     console.log(weatherName);
@@ -92,9 +98,10 @@ function Weather({ weatherName, temp }) { //app.js에서는 name을 내보내고
         <LinearGradient
         colors={WeatherCases[weatherName].colors}
         style={styles.container}>
-        <Sta tusBar hidden={true}/>
+        <StatusBar hidden={true}/>
         <View style={styles.upper}>
-            <Ionicons color="white" size={144} name={WeatherCases[weatherName].icon} />
+            <MaterialCommunityIcons
+             color="white" size={144} name={WeatherCases[weatherName].icon} />
             <Text style={styles.temp}>{temp}</Text>
         </View>
         <View style={styles.lower}>
@@ -107,7 +114,9 @@ function Weather({ weatherName, temp }) { //app.js에서는 name을 내보내고
 
 Weather.propTypes = {
     temp: PropTypes.number.isRequired
-}
+    //weatherName: PropTypes.string.isRequired
+};
+
 export default Weather;
 
 const styles = StyleSheet.create({
@@ -146,6 +155,6 @@ const styles = StyleSheet.create({
         marginBottom: 35
     }
 
-})
+});
 
 
